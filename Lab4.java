@@ -19,10 +19,36 @@ public class Lab4
     Robot.move();
     turnAround();
   }
-  
+  public static void oneRow()
+  { while (!Robot.onDark())
+      { Robot.move();
+        }
+    turnAround();
+    while (Robot.frontIsClear())
+    {Robot.move();
+     Robot.makeDark();
+    }
+    Robot.turnLeft();
+    
+    }
+ 
+  public static void senseRow()
+  { while (Robot.frontIsClear())
+      { 
+          Robot.move();
+        Robot.turnLeft();
+        oneRow();
+        }
+    
+    }
   public static void completeBars()
   {
-    //insert instructions below
+    Robot.turnLeft();
+    oneRow();
+    senseRow();
+    
+    
+    
 
     
     
@@ -44,11 +70,49 @@ public class Lab4
   
   public static void combinePiles()
   {
-    //insert instructions below
-
     
+      senseBlock();
+   
     
   }
+  
+  public static void moveOneBlock()
+  { 
+    
+    Robot.makeLight();
+    Robot.turnLeft();
+    Robot.move();
+    Robot.turnLeft();
+    while (Robot.onDark())
+    { Robot.move();
+    }
+    Robot.makeDark();
+    Robot.turnLeft();
+    Robot.move();
+    Robot.turnLeft();
+    
+}
+
+public static void senseBlock()
+{ while (Robot.frontIsClear())
+    {Robot.move();
+    }
+    turnAround();
+  while (Robot.frontIsClear())
+  {
+      
+    if (Robot.onDark())
+    { moveOneBlock();
+      
+    }
+    Robot.move();
+    if (Robot.onDark())
+    { moveOneBlock();
+    }
+    }
+  
+}
+
 
   public static void testCombinePiles1()
   {
@@ -64,11 +128,100 @@ public class Lab4
     combinePiles();
   }
   
+  public static boolean dotOnLeft()
+  { Robot.turnLeft();
+    Robot.move();
+    Robot.move();
+    if (Robot.onDark())
+    { turnAround();
+      Robot.move();
+      Robot.move();
+      Robot.turnLeft();
+      return true;
+    }
+    else
+    { turnAround();
+      Robot.move();
+      Robot.move();
+      Robot.turnLeft();
+      return false;
+    }
+    }
+    public static boolean dotOnRight()
+  { turnRight();
+    Robot.move();
+    Robot.move();
+    if (Robot.onDark())
+    { turnAround();
+      Robot.move();
+      Robot.move();
+      turnRight();
+      return true;
+    }
+    else
+    { turnAround();
+      Robot.move();
+      Robot.move();
+      turnRight();
+      return false;
+    }
+    }
+    public static boolean dotAhead()
+  { 
+    Robot.move();
+    Robot.move();
+    if (Robot.onDark())
+    { turnAround();
+      Robot.move();
+      Robot.move();
+      turnAround();
+      return true;
+    }
+    else
+    { turnAround();
+      Robot.move();
+      Robot.move();
+      turnAround();
+      return false;
+    }
+    }
+  public static void oneDot()
+  { 
+    if (dotOnLeft())
+    { Robot.turnLeft();
+      Robot.move();
+      Robot.makeDark();
+      Robot.move();
+      
+    }
+    else
+    {  if (dotOnRight())
+            { turnRight();
+              Robot.move();
+              Robot.makeDark();
+              Robot.move();
+              
+            }
+                else
+                { if (dotAhead())
+                    {Robot.move();
+                  Robot.makeDark();
+                  Robot.move();
+                }
+                else
+                { Robot.move();
+                }
+                }
+    }
+    }
+ 
   public static void connectDots()
   {
-    //insert instructions below
+    while (Robot.onDark())
+    {
+        oneDot();
 
-    
+    }
     
   }
   
